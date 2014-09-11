@@ -1,0 +1,13 @@
+{
+  "name": "opticrop-node",
+  "version": "0.0.1",
+  "private": false,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "get-pixels": "^1.1.2",
+    "gm": "^1.16.0"
+  }
+}
