@@ -1,13 +1,29 @@
 {
+  "author": "Alexey Pedyashev",
+  "description": "Optimized thumbnail-generation algorithm (edge-maximizing crop & resize)",
   "name": "opticrop-node",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apedyashev/opticrop-node"
+  },
+  "main": "./lib/opticrop",
+  "keywords": [
+    "intelligent",
+    "smart",
+    "image",
+    "crop"
+  ],
   "private": false,
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "get-pixels": "^1.1.2",
-    "gm": "^1.16.0"
+    "async": "0.9.0",
+    "get-pixels": "1.1.2",
+    "gm": "1.16.0"
+  },
+  "engines": {
+    "node": "*"
   }
 }

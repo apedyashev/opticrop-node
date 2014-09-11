@@ -5,13 +5,29 @@ utils     = require("./utils.js")
 
 GAMMA = 0.2
 
-class exports.Opticrop
-  constructor: ->
-#    @_imgcp = null
-    @_cachePath = '/tmp/ocrop/'
+class Opticrop
+  setImage: (inImage)->
+    @_image = inImage
+    @
+    
+  setWidth: (inWidth)->
+    @_width = inWidth
+    @
+    
+  setHeight: (inHeight)->
+    @_height = inHeight
+    @
+    
+  cropTo: (outImage, done)->
+    return done('Image to me cropped is not set. Please use the setImage() function') unless @_image?
+    return done('Cropped image width is not set. Please use the setWidth() function') unless @_width?
+    return done('Cropped image height is not set. Please use the setWidth() function') unless @_height?
+    
+    @_crop(@_image, @_width, @_height, outImage, done)
+  
   
   _crop: (inImage, inWidth, inHeight, outImage, done)->
-    gmImage = gm(inImage)
+    gmImage   = gm(inImage)
     gmInImage = gm(inImage)
     
     async.auto
@@ -51,7 +67,6 @@ class exports.Opticrop
               ycenter += (j+1)*val
           xcenter /= sum
           ycenter /= sum
-          console.log "xcenter", xcenter, ycenter, sum
           
           
           # crop source img to target AR
@@ -80,7 +95,7 @@ class exports.Opticrop
           # find window with highest normalized edginess
           n = 10000
           maxbetanorm = 0
-          maxfile = ''
+#          maxfile = ''
           maxparam = {'w':0, 'h':0, 'x':0, 'y':0}
           w0 = results.size.width
           h0 = results.size.height
@@ -98,7 +113,7 @@ class exports.Opticrop
               # debug: DELETED
 
               # TODO: set unique name to avoid conflicts in async env
-              currfile = "#{@_cachePath}image#{k}.jpg";
+#              currfile = "#{@_cachePath}image#{k}.jpg";
               beta = 0
               for c in [0...n]
                 i = utils.random(0, wcrop-1)
@@ -115,7 +130,7 @@ class exports.Opticrop
                   maxparam['h'] = hcrop
                   maxparam['x'] = xcrop
                   maxparam['y'] = ycrop
-                  maxfile = currfile
+#                  maxfile = currfile
           cb null, {
             width: maxparam['w']
             height: maxparam['h']
@@ -134,7 +149,6 @@ class exports.Opticrop
         cb null 
       ]
     ,(err, results)=>
-      console.log err, results
       return done err if err
       
       gmInImage.write outImage, (err)=>
@@ -142,4 +156,4 @@ class exports.Opticrop
       
               
             
-      
+module.exports = Opticrop
