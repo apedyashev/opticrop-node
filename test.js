@@ -18,8 +18,8 @@ async.each(inputFiles, function(file, cb) {
   console.time(file);
   inFile = "" + filesDir + file;
   outFile = "" + filesDir + "cropped_" + file;
-  return opticrop.setImage(inFile).setWidth(100).setHeight(100).cropTo(outFile, function(err, data) {
-    console.log("***", err, data);
+  return opticrop.setImage(inFile).setWidth(100).setHeight(100).cropTo(outFile, function(err) {
+    console.log("***", err);
     console.timeEnd(file);
     return cb(err);
   });

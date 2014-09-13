@@ -14,8 +14,8 @@ async.each inputFiles, (file, cb)->
   opticrop.setImage(inFile)
   .setWidth(100)
   .setHeight(100)
-  .cropTo outFile, (err, data)->
-    console.log "***", err, data
+  .cropTo outFile, (err)->
+    console.log "***", err
     console.timeEnd(file)
     
     cb err
@@ -32,8 +32,8 @@ async.each inputFiles, (file, cb)->
 #  outFile = "#{filesDir}#{n}_cr_example.jpg"
 #  inFile  = "#{filesDir}example.jpg"
 #  console.time(outFile);
-#  opticrop.setImage(inFile).setWidth(100).setHeight(100).cropTo outFile, (err, data)->
-#    console.log "*** ##{n}", err, data
+#  opticrop.setImage(inFile).setWidth(100).setHeight(100).cropTo outFile, (err)->
+#    console.log "*** ##{n}", err
 #    console.log(util.inspect(Math.floor(process.memoryUsage().rss/(1024*1024)) + " MB"));
 #    console.timeEnd(outFile)
 #    cb()
