@@ -27,4 +27,4 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-images/example_cropped.jpg
+images/cropped_*.*

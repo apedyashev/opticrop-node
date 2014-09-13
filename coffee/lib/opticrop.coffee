@@ -1,7 +1,7 @@
 gm        = require('gm')
 async     = require('async')
-getPixels = require("get-pixels")
 utils     = require("./utils.js")
+gd        = require 'node-gd'
 
 GAMMA = 0.2
 
@@ -47,11 +47,13 @@ class Opticrop
           cb err, {resultFile: outImage}
       ]
       ,calculateCenter: ['size', 'createEdgedImage', (cb, results)=>
-        getPixels results.createEdgedImage.resultFile, (err, pixels)->
+        console.time("pix");
+#        getPixels results.createEdgedImage.resultFile, (err, pixels)->
+        @_createGdImage results.createEdgedImage.resultFile, (err, gdImage)=>
           if(err)  
-            console.log("Bad image path")
-            return cb "Bad image path"
-            
+            console.log err
+            return cb err
+          console.timeEnd("pix");
 #          console.log "got pixels", pixels.get(5,5, 0), pixels.get(5,5, 1), pixels.get(10,10, 2)# pixels.shape.slice())
           xcenter = 0
           ycenter = 0
@@ -61,7 +63,7 @@ class Opticrop
               i = utils.random(0, results.size.width - 1) #mt_rand(0, $w0-1);
               j = utils.random(0, results.size.height - 1) #mt_rand(0, $h0-1);
               # get blue (why blue???) channels value
-              val = pixels.get(j, i, 2) #imagecolorat($im, $i, $j) & 0xFF;
+              val = gdImage.getPixel(i, j) & 0xFF#pixels.get(j, i, 2) #imagecolorat($im, $i, $j) & 0xFF;
               sum += val
               xcenter += (i+1)*val
               ycenter += (j+1)*val
@@ -110,16 +112,12 @@ class Opticrop
               ycrop = 0 if (ycrop < 0) 
               ycrop = h0-hcrop if (ycrop+hcrop > h0) 
 
-              # debug: DELETED
-
-              # TODO: set unique name to avoid conflicts in async env
-#              currfile = "#{@_cachePath}image#{k}.jpg";
               beta = 0
               for c in [0...n]
                 i = utils.random(0, wcrop-1)
                 j = utils.random(0, hcrop-1)
                 # get blue (why blue???) channels value
-                beta += pixels.get(ycrop+j, xcrop+i, 2)  
+                beta += gdImage.getPixel(i, j) & 0xFF #pixels.get(ycrop+j, xcrop+i, 2)  
               area = wcrop * hcrop;
               betanorm = beta / (n*Math.pow(area, GAMMA-1));
 
@@ -154,6 +152,15 @@ class Opticrop
       gmInImage.write outImage, (err)=>
         done err
       
-              
-            
+  _createGdImage: (inFile, done)->
+    gm(inFile).format (err, format)->
+      return done "_createGdImage error: " + err if err
+      
+      switch format
+        when "JPEG" then image = gd.createFromJpeg(inFile)
+        when "PNG" then image = gd.createFromPng(inFile)
+        when "GIF" then image = gd.createFromGif(inFile)
+        else return done "Unknown image format: #{format}"
+        
+      done null, image
 module.exports = Opticrop
