@@ -7,11 +7,11 @@ async = require('async');
 
 util = require('util');
 
-opticrop = new Opticrop;
-
 inputFiles = ['example.jpg', 'example.png', 'example.gif'];
 
 filesDir = "./images/";
+
+opticrop = new Opticrop;
 
 async.each(inputFiles, function(file, cb) {
   var inFile, outFile;

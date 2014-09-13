@@ -6,18 +6,31 @@ gd        = require 'node-gd'
 GAMMA = 0.2
 
 class Opticrop
+    
+  ###
+    Sets image to be cropped
+  ###
   setImage: (inImage)->
     @_image = inImage
     @
     
+  ###
+    Sets target width
+  ###
   setWidth: (inWidth)->
     @_width = inWidth
     @
     
+  ###
+    Sets target height
+  ###
   setHeight: (inHeight)->
     @_height = inHeight
     @
     
+  ###
+    Crops image and saves it to outImage
+  ###
   cropTo: (outImage, done)->
     return done('Image to me cropped is not set. Please use the setImage() function') unless @_image?
     return done('Cropped image width is not set. Please use the setWidth() function') unless @_width?
@@ -26,6 +39,9 @@ class Opticrop
     @_crop(@_image, @_width, @_height, outImage, done)
   
   
+  ###
+   Smart cropping routine
+  ###
   _crop: (inImage, inWidth, inHeight, outImage, done)->
     gmImage   = gm(inImage)
     gmInImage = gm(inImage)
@@ -38,7 +54,7 @@ class Opticrop
       createEdgedImage: ['size', (cb, results)=>
         if (inWidth > results.size.width) or (inHeight > results.size.height)
           return cb "Target dimensions must be smaller or equal to source dimensions."
- 
+        
         edgeFilterRadius = 1
         gmImage.edge(edgeFilterRadius)
         .modulate(100, 0, 100)
@@ -47,29 +63,26 @@ class Opticrop
           cb err, {resultFile: outImage}
       ]
       ,calculateCenter: ['size', 'createEdgedImage', (cb, results)=>
-        console.time("pix");
-#        getPixels results.createEdgedImage.resultFile, (err, pixels)->
         @_createGdImage results.createEdgedImage.resultFile, (err, gdImage)=>
           if(err)  
             console.log err
             return cb err
-          console.timeEnd("pix");
-#          console.log "got pixels", pixels.get(5,5, 0), pixels.get(5,5, 1), pixels.get(10,10, 2)# pixels.shape.slice())
           xcenter = 0
           ycenter = 0
           sum = 0
           n = 100000
+           
           for k in [0...n]
               i = utils.random(0, results.size.width - 1) #mt_rand(0, $w0-1);
               j = utils.random(0, results.size.height - 1) #mt_rand(0, $h0-1);
               # get blue (why blue???) channels value
-              val = gdImage.getPixel(i, j) & 0xFF#pixels.get(j, i, 2) #imagecolorat($im, $i, $j) & 0xFF;
+              val = gdImage.imageColorAt(i, j) & 0xFF#pixels.get(j, i, 2) #imagecolorat($im, $i, $j) & 0xFF;
               sum += val
               xcenter += (i+1)*val
               ycenter += (j+1)*val
           xcenter /= sum
           ycenter /= sum
-          
+           
           
           # crop source img to target AR
           targetAspectRatio = inWidth/inHeight 
@@ -117,7 +130,7 @@ class Opticrop
                 i = utils.random(0, wcrop-1)
                 j = utils.random(0, hcrop-1)
                 # get blue (why blue???) channels value
-                beta += gdImage.getPixel(i, j) & 0xFF #pixels.get(ycrop+j, xcrop+i, 2)  
+                beta += gdImage.imageColorAt(i, j) & 0xFF #pixels.get(ycrop+j, xcrop+i, 2)  
               area = wcrop * hcrop;
               betanorm = beta / (n*Math.pow(area, GAMMA-1));
 
@@ -128,7 +141,8 @@ class Opticrop
                   maxparam['h'] = hcrop
                   maxparam['x'] = xcrop
                   maxparam['y'] = ycrop
-#                  maxfile = currfile
+           # calling of teh destroy() crashes app with 'segmentation fault' when many images are cropped       
+#          gdImage.destroy()
           cb null, {
             width: maxparam['w']
             height: maxparam['h']
@@ -152,15 +166,20 @@ class Opticrop
       gmInImage.write outImage, (err)=>
         done err
       
+  ###
+    Creates image object in memory using GD library
+  ###
   _createGdImage: (inFile, done)->
-    gm(inFile).format (err, format)->
-      return done "_createGdImage error: " + err if err
+    gm(inFile).format (err, format)=>
+      return done("_createGdImage error: " + err) if err
       
       switch format
         when "JPEG" then image = gd.createFromJpeg(inFile)
-        when "PNG" then image = gd.createFromPng(inFile)
-        when "GIF" then image = gd.createFromGif(inFile)
+        when "PNG"  then image = gd.createFromPng(inFile)
+        when "GIF"  then image = gd.createFromGif(inFile)
         else return done "Unknown image format: #{format}"
         
       done null, image
+  
+      
 module.exports = Opticrop
