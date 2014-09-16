@@ -1,10 +1,12 @@
 Opticrop  = require('./lib/opticrop.js')
 async     = require('async')
 util      = require('util')
-
+Faced = require('faced')
 
 inputFiles = ['example.jpg', 'example.png', 'example.gif']
 filesDir = "./images/"
+
+
 opticrop = new Opticrop
 async.each inputFiles, (file, cb)->
   console.time(file);
@@ -40,6 +42,21 @@ async.each inputFiles, (file, cb)->
 #, (err, data)->
 #  console.log "done. Err: ", err 
 #  console.log(util.inspect(process.memoryUsage()))
-  
+
+#file = filesDir + inputFiles[0]
+#faced = new Faced()
+#faced.detect file, (faces, image, file)->
+#  if !faces 
+#    return console.log("No faces found!");
+#
+#  face = faces[0]
+#
+#  console.log(
+#    "Found a face at %d,%d with dimensions %dx%d",
+#    face.getX(),
+#    face.getY(),
+#    face.getWidth(),
+#    face.getHeight()
+#  );
 
 

@@ -6,15 +6,18 @@ node.js port of [jueseph/Opticrop](https://github.com/jueseph/Opticrop)
 Detect the most interesting part of picture and crops it
 
 Installation
+First install graphicsmagick and dev version od GD2
 -------------
 on Debian/Ubuntu
 ```
+sudo apt-get install graphicsmagick
 sudo apt-get install libgd2-xpm-dev 
 npm install opticrop-node
 ```
 
 on Mac OS/X
 ```
+brew install graphicsmagick
 brew install gd
 npm install opticrop-node
 ``` 
@@ -35,6 +38,9 @@ opticrop.setImage('./images/example.jpg')
 Version History
 ===============
 
+0.1.2
+-----
+Updated installation instructions 
 0.1.1
 -----
 Cropping speed was increased by 3 times due to replacing of mikolalysenko/get-pixels with mikesmullin/node-gd
