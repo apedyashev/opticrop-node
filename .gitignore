@@ -26,5 +26,7 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+.DS_Store
 
 images/cropped_*.*
+images/leaks_test/*.*
