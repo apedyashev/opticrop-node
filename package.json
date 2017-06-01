@@ -8,6 +8,7 @@
     "url": "https://github.com/apedyashev/opticrop-node"
   },
   "main": "./lib/opticrop",
+  "types": "lib/opticrop",
   "keywords": [
     "intelligent",
     "smart",
@@ -16,7 +17,8 @@
   ],
   "private": false,
   "scripts": {
-    "start": "node test.js"
+    "start": "node test.js",
+    "build": "tsc -p ."
   },
   "dependencies": {
     "async": "0.9.0",
@@ -25,5 +27,9 @@
   },
   "engines": {
     "node": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.23",
+    "typescript": "^2.3.4"
   }
 }
