@@ -6,7 +6,7 @@ async = require('async');
 
 util = require('util');
 
-inputFiles = ['example.jpg', 'example.png', 'example.gif'];
+inputFiles = ['example.jpg', 'example_flower.jpg', 'example_flower_left.jpg', 'example.png', 'example.gif'];
 
 filesDir = "./images/";
 

@@ -4,7 +4,24 @@ opticrop-node
 node.js port of [jueseph/Opticrop](https://github.com/jueseph/Opticrop)
 
 Detect the most interesting part of picture and crops it
-![example](images/how_it_works.jpg)
+
+# Description
+Unlike most cropping routines out there, Opticrop uses edge-detection to find the most “interesting” part of the image to crop, so you won’t get a useless thumbnail just because the top-left corner of your image happened to be a big patch of featureless sky.
+
+# Limitations
+Opticrop was written to be smarter than easily available alternatives, but because the strategy is relatively simple, it still makes the “wrong” crop on certain images.
+
+[read more](https://diauxicshift.wordpress.com/2010/06/21/opticrop-content-aware-cropping-with-php-and-imagemagick/)
+
+
+**Example #1** - *crops original image just fine*
+![example1](images/how_it_works_1.jpg)
+
+**Example #2** - *the result is perfect*
+![example2](images/how_it_works_2.jpg)
+
+**Example #3**  - *result is not as good as you probably expected*
+![example3](images/how_it_works_3.jpg)
 
 ## Installation
 First install graphicsmagick and dev version od GD2 (more info [here](https://www.npmjs.com/package/node-gd))
