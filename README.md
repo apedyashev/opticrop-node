@@ -1,5 +1,6 @@
 opticrop-node
 =============
+tested on node v7.7.4
 
 node.js port of [jueseph/Opticrop](https://github.com/jueseph/Opticrop)
 
@@ -53,6 +54,8 @@ npm install opticrop-node
 # Example
 cropTo returns [bluebird](http://bluebirdjs.com/) Promise if `callback` param is not passed down
 ```JavaScript
+const Opticrop = require('opticrop-node').Opticrop;
+const opticrop = new Opticrop;
 opticrop
   .setImage(inFile)
   .setWidth(100)
@@ -68,12 +71,13 @@ opticrop
 
 or it accepts a callback as last argument
 ```JavaScript
-var Opticrop = require('opticrop-node').Opticrop;
-var opticrop = new Opticrop;
-opticrop.setImage('./images/example.jpg')
+const Opticrop = require('opticrop-node').Opticrop;
+const opticrop = new Opticrop;
+opticrop
+.setImage('./images/example.jpg')
   .setWidth(100)
   .setHeight(100)
-  .cropTo('./images/cropped_example.jpg', function(err, data) {
+  .cropTo('./images/cropped_example.jpg', (err, data) => {
     console.log("Cropping done", err, data);
   });
 ```

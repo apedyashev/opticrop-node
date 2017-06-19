@@ -16,9 +16,9 @@ export declare type AutoFlowResult = {
     };
 };
 export declare class Opticrop {
-    image: string;
-    width: number;
-    height: number;
+    private image;
+    private width;
+    private height;
     /**
      *  Sets image to be cropped
      */
@@ -38,14 +38,14 @@ export declare class Opticrop {
     /**
      * Cropping routine that conforms to node.js convention of accepting a callback as last argumen
      */
-    _cropTo(outImage: string, done: DoneCallback): void;
+    private _cropTo(outImage, done);
     /**
      * Smart cropping routine
      */
-    _crop(inImage: string, inWidth: number, inHeight: number, outImage: string, done: DoneCallback): void;
-    _random(low: number, high: number): number;
+    private _crop(inImage, inWidth, inHeight, outImage, done);
+    private _random(low, high);
     /**
      *  Creates image object in memory using GD library
      */
-    _createGdImage(fileName: string, done: DoneCallback): void;
+    private _createGdImage(fileName, done);
 }
