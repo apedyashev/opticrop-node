@@ -1,10 +1,10 @@
 opticrop-node
 =============
-tested on node v7.7.4
-
 node.js port of [jueseph/Opticrop](https://github.com/jueseph/Opticrop)
 
 Detect the most interesting part of picture and crops it
+
+tested on **node v7.7.4**
 
 # Description
 Unlike most cropping routines out there, Opticrop uses edge-detection to find the most “interesting” part of the image to crop, so you won’t get a useless thumbnail just because the top-left corner of your image happened to be a big patch of featureless sky.
