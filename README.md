@@ -51,6 +51,22 @@ npm install opticrop-node
 **Will not build on Windows!**
 
 # Example
+cropTo returns [bluebird](http://bluebirdjs.com/) Promise if `callback` param is not passed down
+```JavaScript
+opticrop
+  .setImage(inFile)
+  .setWidth(100)
+  .setHeight(100)
+  .cropTo(outFile)
+  .then(() => {
+    console.log('crop is done')
+  })
+  .catch((err) => {
+    console.log("Error", err);
+  });
+```
+
+or it accepts a callback as last argument
 ```JavaScript
 var Opticrop = require('opticrop-node').Opticrop;
 var opticrop = new Opticrop;
@@ -61,6 +77,8 @@ opticrop.setImage('./images/example.jpg')
     console.log("Cropping done", err, data);
   });
 ```
+
+
 
 # Test
 Following command will crop example images and save as `images/cropped_example.(gif|jpg|png)`

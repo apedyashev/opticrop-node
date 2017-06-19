@@ -34,7 +34,11 @@ export declare class Opticrop {
     /**
     *  Crops image and saves it to outImage
     */
-    cropTo(outImage: string, done: DoneCallback): void | this;
+    cropTo(outImage: string, done: DoneCallback): any;
+    /**
+    * Cropping routine that conforms to node.js convention of accepting a callback as last argumen
+    */
+    _cropTo(outImage: string, done: DoneCallback): void;
     /**
     * Smart cropping routine
     */

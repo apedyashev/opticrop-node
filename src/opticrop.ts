@@ -1,6 +1,7 @@
 const gm = require('gm');
 const async = require('async');
 const gd  = require('node-gd');
+const Promise = require('bluebird');
 
 const GAMMA = 0.2;
 export type DoneCallback = (err?: any, data?: any) => void;
@@ -43,6 +44,17 @@ export class Opticrop {
   *  Crops image and saves it to outImage
   */
   cropTo(outImage: string, done: DoneCallback) {
+    if (done) {
+      return this._cropTo(outImage, done);
+    }
+    const cropTo = Promise.promisify(this._cropTo, {context: this});
+    return cropTo(outImage);
+  }
+
+  /**
+  * Cropping routine that conforms to node.js convention of accepting a callback as last argumen
+  */
+  _cropTo(outImage: string, done: DoneCallback) {
     if (!this.image) {
       return done('Image to me cropped is not set. Please use the setImage() function');
     }
@@ -54,8 +66,8 @@ export class Opticrop {
     }
 
     this._crop(this.image, this.width, this.height, outImage, done);
-    return this;
   }
+
 
   /**
   * Smart cropping routine
