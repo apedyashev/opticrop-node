@@ -20,32 +20,32 @@ export declare class Opticrop {
     width: number;
     height: number;
     /**
-    *  Sets image to be cropped
-    */
+     *  Sets image to be cropped
+     */
     setImage(imageFile: string): this;
     /**
-    *  Sets target width
-    */
+     *  Sets target width
+     */
     setWidth(width: number): this;
     /**
-    *  Sets target height
-    */
+     *  Sets target height
+     */
     setHeight(height: number): this;
     /**
-    *  Crops image and saves it to outImage
-    */
+     *  Crops image and saves it to outImage
+     */
     cropTo(outImage: string, done: DoneCallback): any;
     /**
-    * Cropping routine that conforms to node.js convention of accepting a callback as last argumen
-    */
+     * Cropping routine that conforms to node.js convention of accepting a callback as last argumen
+     */
     _cropTo(outImage: string, done: DoneCallback): void;
     /**
-    * Smart cropping routine
-    */
+     * Smart cropping routine
+     */
     _crop(inImage: string, inWidth: number, inHeight: number, outImage: string, done: DoneCallback): void;
     _random(low: number, high: number): number;
     /**
-    *  Creates image object in memory using GD library
-    */
+     *  Creates image object in memory using GD library
+     */
     _createGdImage(fileName: string, done: DoneCallback): void;
 }
