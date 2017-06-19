@@ -4,6 +4,8 @@ node.js port of [jueseph/Opticrop](https://github.com/jueseph/Opticrop)
 
 Detect the most interesting part of picture and crops it
 
+[![npm version](https://badge.fury.io/js/opticrop-node.svg)](https://badge.fury.io/js/opticrop-node)
+
 tested on **node v7.7.4**
 
 # Description
